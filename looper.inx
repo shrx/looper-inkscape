@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Looper</name>
+    <id>com.sureskumar.looper.inkscape</id>
+    <param name="tab" type="notebook">
+
+        <page name="count" gui-text="Count">
+            <label appearance="header">Duplication count</label>
+            <param name="copies" type="int" min="1" max="10000"
+                   gui-text="Number of copies:"
+                   gui-description="Total number of items, including the first copy. Ignored when 'Form a grid' is enabled (rows x columns is used instead).">5</param>
+            <spacer/>
+            <label appearance="header">Options</label>
+            <param name="hide_original" type="bool"
+                   gui-text="Hide the original object"
+                   gui-description="The Sketch plugin hides the source layer after looping. Leave this off to keep the original visible under the first copy.">false</param>
+            <param name="seed" type="int" min="0" max="99999999"
+                   gui-text="Random seed (0 = different every run):"
+                   gui-description="Set a fixed seed to make the Random rotate / scale / move / opacity modes reproducible, e.g. for live preview.">0</param>
+        </page>
+
+        <page name="rotate" gui-text="Rotate">
+            <param name="rotate_enable" type="bool"
+                   gui-text="Rotate while duplicating">true</param>
+            <param name="rotate_mode" type="optiongroup" appearance="combo"
+                   gui-text="Mode:">
+                <option value="auto">Auto rotate to form a circle</option>
+                <option value="manual">Manually rotate</option>
+            </param>
+            <param name="angle" type="float" precision="2" min="-3600" max="3600"
+                   gui-text="Angle (degrees):"
+                   gui-description="Rotation added to each successive copy (manual mode). Recommended range: 1-359.">4</param>
+            <param name="rotate_inc" type="optiongroup" appearance="combo"
+                   gui-text="Increment:">
+                <option value="linear">Linear</option>
+                <option value="sin">Sinusoidal</option>
+                <option value="random">Random</option>
+            </param>
+            <param name="sin_factor" type="float" precision="2" min="0" max="100"
+                   gui-text="Sin factor (sinusoidal only):"
+                   gui-description="Frequency of the sinusoidal wobble. Recommended range: 0.02-10.">0.8</param>
+            <param name="angle_rnd" type="float" precision="1" min="0" max="3600"
+                   gui-text="Randomize by +/- degrees (random only):"
+                   gui-description="Each copy rotates by Angle plus a random offset in this range. Recommended range: 5-20.">5</param>
+        </page>
+
+        <page name="scale" gui-text="Scale">
+            <param name="scale_enable" type="bool"
+                   gui-text="Scale while duplicating">false</param>
+            <param name="scale_dir" type="optiongroup" appearance="combo"
+                   gui-text="Direction:">
+                <option value="both">X and Y</option>
+                <option value="x">X only</option>
+                <option value="y">Y only</option>
+            </param>
+            <param name="scale_mode" type="optiongroup" appearance="combo"
+                   gui-text="Increment in:">
+                <option value="pixels">Pixels</option>
+                <option value="percentage">Percentage</option>
+                <option value="random">Randomly</option>
+            </param>
+            <param name="scale_px" type="float" precision="1" min="-10000" max="10000"
+                   gui-text="Increment by (px):"
+                   gui-description="Added to the size of each successive copy. Recommended range: 5-20.">5</param>
+            <param name="scale_pr" type="float" precision="1" min="1" max="1000"
+                   gui-text="Increment by (%):"
+                   gui-description="Each copy is this percentage of the previous one (compounds). Recommended range: 50-130.">102</param>
+            <param name="scale_rnd" type="float" precision="1" min="0" max="10000"
+                   gui-text="Randomize by +/- (px):"
+                   gui-description="Each copy's size is the original size plus or minus a random amount up to this value. Recommended range: 5-20.">5</param>
+        </page>
+
+        <page name="move" gui-text="Move / Grid">
+            <label appearance="header">Move</label>
+            <param name="move_enable" type="bool"
+                   gui-text="Move while duplicating"
+                   gui-description="If both Move and Grid are enabled, Move wins (as in the original plugin).">false</param>
+            <param name="move_dir" type="optiongroup" appearance="combo"
+                   gui-text="Direction:">
+                <option value="horizontal">Horizontally</option>
+                <option value="vertical">Vertically</option>
+                <option value="diagonal">Diagonally</option>
+                <option value="random">Randomly</option>
+            </param>
+            <param name="move_inc" type="float" precision="1" min="-100000" max="100000"
+                   gui-text="Increment by (px):"
+                   gui-description="Recommended range: 1-500.">20</param>
+            <param name="move_rnd_x" type="float" precision="1" min="0" max="100000"
+                   gui-text="Random area width (px):">20</param>
+            <param name="move_rnd_y" type="float" precision="1" min="0" max="100000"
+                   gui-text="Random area height (px):">20</param>
+            <spacer/>
+            <label appearance="header">Form a grid</label>
+            <param name="grid_enable" type="bool"
+                   gui-text="Form a grid"
+                   gui-description="Duplicates the selection into a grid of rows x columns; the duplication count is ignored.">false</param>
+            <param name="grid_cols" type="int" min="1" max="1000"
+                   gui-text="Number of columns:">4</param>
+            <param name="grid_rows" type="int" min="1" max="1000"
+                   gui-text="Number of rows:">4</param>
+            <param name="grid_margin_x" type="float" precision="1" min="-100000" max="100000"
+                   gui-text="Horizontal spacing (px):">50</param>
+            <param name="grid_margin_y" type="float" precision="1" min="-100000" max="100000"
+                   gui-text="Vertical spacing (px):">50</param>
+        </page>
+
+        <page name="opacity" gui-text="Opacity">
+            <param name="opacity_mode" type="optiongroup" appearance="radio"
+                   gui-text="Update opacity while duplicating:">
+                <option value="none">No change</option>
+                <option value="random">Randomly</option>
+                <option value="fadein">Increase from 0 to 100%</option>
+                <option value="fadeout">Decrease from 100 to 0%</option>
+            </param>
+        </page>
+
+        <page name="help" gui-text="Help">
+            <label appearance="header">Looper for Inkscape</label>
+            <label>Select exactly one object or group, then run this extension. The copies are placed in a new group named "(name)_looper" next to the original.</label>
+            <label>Rotation, scale and move are applied cumulatively from one copy to the next, so small values quickly build up interesting patterns.</label>
+            <label>Tip: enable Live preview in this dialog and set a fixed random seed to experiment with the Random modes.</label>
+            <label>Port of the Looper Sketch plugin by Sures Kumar.</label>
+            <label appearance="url">https://github.com/sureskumar/Looper</label>
+        </page>
+
+    </param>
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Arrange"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">looper.py</command>
+    </script>
+</inkscape-extension>

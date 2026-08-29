@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+     width="800" height="600" viewBox="0 0 800 600">
+  <rect id="rect1" x="100" y="100" width="60" height="20" fill="#3465a4"/>
+  <g id="grp1" transform="translate(300,200) rotate(10)">
+    <circle id="c1" cx="0" cy="0" r="15" fill="#cc0000"/>
+    <rect id="r2" x="-5" y="-40" width="10" height="30" fill="#4e9a06"/>
+  </g>
+</svg>
