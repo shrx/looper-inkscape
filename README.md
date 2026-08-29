@@ -1,4 +1,4 @@
-# Looper for Inkscape v1.0
+# Looper for Inkscape v1.0.0
 
 Looper is an Inkscape extension that helps automate duplication of groups and objects. One can control properties like Rotate, Scale and Opacity while duplicating. This powerful combination enables artists and designers to create interesting geometric and organic patterns.
 
